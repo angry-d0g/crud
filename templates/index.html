@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <title>Employee Management System</title>
+   
+</head>
+<body>
+    <h2>Employee Management System</h2>
+    
+    
+
+    {% block table %}{% endblock %}
+    
+
+
+
+    <script>
+        // КНОПКА EDIT
+        function editDep(button) {
+            var memberId = button.getAttribute('data-member-id');
+            var currentDep = button.getAttribute('data-current-dep');
+            var newDep = prompt('Enter new Department ID:', currentDep);
+            if (newDep !== null) {
+                // Отправляем обновленные данные на сервер
+                fetch('/update_member', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'id=' + memberId + '&dep=' + encodeURIComponent(newDep),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert('Member data updated successfully!');
+                        // Если обновление прошло успешно, обновим таблицу на клиенте
+                        window.location.reload();
+                    } else {
+                        alert('Failed to update member data.');
+                        
+                    }
+                });
+            }
+        }
+
+        function editMembers(button) {
+            var memberId = button.getAttribute('data-member-id');
+            var currentMembers = button.getAttribute('data-current-members');
+            var newMembers = prompt('Enter new Members:', currentMembers);
+            if (newMembers !== null) {
+                // Отправляем обновленные данные на сервер
+                fetch('/update_department', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'id=' + memberId + '&members=' + encodeURIComponent(newMembers),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert('Department data updated successfully!');
+                        // Если обновление прошло успешно, обновим таблицу на клиенте
+                        window.location.reload();
+                    } else {
+                        alert('Failed to update department data.');
+                    }
+                });
+            }
+        }
+
+        function editCosts(button) {
+            var memberId = button.getAttribute('data-trip-id');
+            var currentCosts = button.getAttribute('data-current-costs');
+            var newCosts = prompt('Enter new Costs:', currentCosts);
+            if (newCosts !== null) {
+                // Отправляем обновленные данные на сервер
+                fetch('/update_trips', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'id=' + memberId + '&costs=' + encodeURIComponent(newCosts),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert('Member data updated successfully!');
+                        // Если обновление прошло успешно, обновим таблицу на клиенте
+                        window.location.reload();
+                    } else {
+                        alert('Failed to update member data.');
+                    }
+                });
+            }
+        }
+        
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // function loadTable(tableName) {
+        // // Fetch data for the selected table from the server
+        // fetch('/load_table?table=' + tableName)
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         // Render the table dynamically
+        //         renderTable(data, tableName);
+        //     });
+        // }
+
+        // function renderTable(data, tableName) {
+        //     var tableContainer = document.getElementById('table-container');
+        //     tableContainer.innerHTML = '';  // Clear existing table content
+
+        //     // Add table headers
+        //     var table = document.createElement('table');  // Create a table element
+        //     tableContainer.appendChild(table);  // Append the table to the container
+
+        //     var thead = table.createTHead();
+        //     var headerRow = thead.insertRow();
+        //     Object.keys(data[0]).forEach(key => {
+        //         var th = document.createElement('th');
+        //         th.appendChild(document.createTextNode(key));
+        //         headerRow.appendChild(th);
+        //     });
+
+        //     // Add table rows
+        //     var tbody = table.createTBody();
+        //     data.forEach(row => {
+        //         var tr = tbody.insertRow();
+        //         Object.values(row).forEach(value => {
+        //             var td = tr.insertCell();
+        //             td.appendChild(document.createTextNode(value));
+        //         });
+        //     });
+        // }
+
+        // function addRecord() {
+        //     // Get values from the form
+        //     var dob = document.getElementById('dob').value;
+        //     var fk_department = document.getElementById('fk_department').value;
+        //     var fio = document.getElementById('fio').value;
+
+        //     // Add other fields based on your form
+
+        //     // Send data to the server for insertion
+        //     fetch('/add_record', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/x-www-form-urlencoded',
+        //         },
+        //         body: 'dob=' + dob + '&fk_department=' + fk_department + '&fio=' + encodeURIComponent(fio),
+        //         // Add other fields to the body based on your form
+        //     })
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             if (data.status === 'success') {
+        //                 alert('Record added successfully!');
+        //                 // If the insertion is successful, reload the table
+        //                 loadTable('members'); // Change 'members' to the desired table name
+        //             } else {
+        //                 alert('Failed to add record.');
+        //             }
+        //         });
+        // }
+
+        // // Load the default table on page load
+        // loadTable('members');
+    </script>
+</body>
+</html>

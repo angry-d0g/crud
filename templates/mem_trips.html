@@ -1,0 +1,57 @@
+{%extends 'index.html' %}
+{% block table %}
+    <header class="d-flex justify-content-center py-3">
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a href="/" class="nav-link " aria-current="page">Members</a></li>
+            <li class="nav-item"><a href="/history" class="nav-link" aria-current="page">History</a></li>
+            <li class="nav-item"><a href="/department" class="nav-link" aria-current="page">Department</a></li>
+            <li class="nav-item"><a href="/mem_trips" class="nav-link active" aria-current="page">Mem Trips</a></li>
+            <li class="nav-item"><a href="/trips" class="nav-link" aria-current="page">Trips</a></li>
+        </ul>
+    </header>
+    <h2>Mem_Trips Table</h2>
+    <h4>Number of records: {{rows|length}}</h4>
+    {% block form %}
+
+        <form class="row gy-2 gx-3 align-items-center" method="post">
+            <div class="col-auto">
+                <label for="mem_id">MEMBERS ID:</label>
+                <input class="form-control" type="number" name="mem_id" id="mem_id">
+            </div>
+            <div class="col-auto">
+                <label for="trip_id">TRIP ID:</label>
+                <input class="form-control" type="number" name="trip_id" id="trip_id">
+            </div>
+            <div class="col-auto">
+                <input class="btn btn-primary" type="submit" ></input>
+            </div>
+        </form>
+
+    {% endblock %}
+
+    <div >*Добавлять можно только существующий member.id и trip.id</div>
+
+    <div class="container">
+        <table class="table table-hover table-lg">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>MEM ID</th>
+                    <th>TRIP ID</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                    <tr>
+                        <td>{{ row.id }}</td>
+                        <td>{{ row.mem_id }}</td>
+                        <td>{{ row.trip_id }}</td>
+                        <td><button class="btn btn-danger rounded-pill px-3" type="button" onclick="location.href='/mem_trips/{{row.id}}/del'">Delete</button></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+

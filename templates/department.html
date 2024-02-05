@@ -1,0 +1,63 @@
+{%extends 'index.html' %}
+{% block table %}
+    <header class="d-flex justify-content-center py-3">
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a href="/" class="nav-link " aria-current="page">Members</a></li>
+            <li class="nav-item"><a href="/history" class="nav-link" aria-current="page">History</a></li>
+            <li class="nav-item"><a href="/department" class="nav-link active" aria-current="page">Department</a></li>
+            <li class="nav-item"><a href="/mem_trips" class="nav-link" aria-current="page">Mem Trips</a></li>
+            <li class="nav-item"><a href="/trips" class="nav-link" aria-current="page">Trips</a></li>
+        </ul>
+    </header>
+    <h2>Departments Table</h2>
+    <h4>Number of records: {{rows|length}}</h4>
+    {% block form %}
+
+        <form class="row gy-2 gx-3 align-items-center" method="post">
+
+
+            <div class="col-auto">
+                <label for="name">NAME:</label>
+                <input  class="form-control" type="text" name="name" id="name">
+            </div>
+            <div class="col-auto">
+                <label for="members"> MEMBERS:</label>
+                <input class="form-control" type="number" id="members" name="members">
+            </div>
+            <div class="col-auto">
+                <input class="btn btn-primary" type="submit" ></input>
+            </div>
+        </form>
+
+    {% endblock %}
+
+    <div >*Чтобы удалить отдел, измините department.id у сотрудников, которые в нем состоят!</div>
+
+    <div class="container">
+        <table class="table table-hover table-lg">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>NAME</th>
+                    <th>MEMBERS</th>
+                    <th>Action</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                    <tr>
+                        <td>{{ row.id }}</td>
+                        <td>{{ row.name }}</td>
+                        <td>{{ row.members }}</td>
+                        <td><button class="btn btn-danger rounded-pill px-3" type="button" onclick="location.href='/department/{{row.id}}/del'">Delete</button></td>
+                        <td><button class="btn btn-warning rounded-pill px-3" data-member-id="{{ row.id }}" data-current-members="{{ row.members }}" onclick="editMembers(this)">Edit</button></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+
+

@@ -1,0 +1,68 @@
+{%extends 'index.html' %}
+{% block table %}
+    <header class="d-flex justify-content-center py-3">
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a href="/" class="nav-link active" aria-current="page">Members</a></li>
+            <li class="nav-item"><a href="/history" class="nav-link" aria-current="page">History</a></li>
+            <li class="nav-item"><a href="/department" class="nav-link" aria-current="page">Department</a></li>
+            <li class="nav-item"><a href="/mem_trips" class="nav-link" aria-current="page">Mem Trips</a></li>
+            <li class="nav-item"><a href="/trips" class="nav-link" aria-current="page">Trips</a></li>
+        </ul>
+    </header>
+    <h2>Members Table</h2>
+    <h4>Number of records: {{rows|length}}</h4>
+
+    {% block form %}
+
+        <form class="row gy-2 gx-3 align-items-center" method="post">
+            <div class="col-auto">
+                <label for="dob">DOB:</label>
+                <input class="form-control" type="date" name="dob" id="dob">
+            </div>
+            <div class="col-auto">
+                <label for="fk_department">Department ID:</label>
+                <input class="form-control" type="number" id="fk_department" name="fk_department">
+            </div>
+            <div class="col-auto">
+                <label for="fio">FIO:</label>
+                <input class="form-control" type="text" id="fio" name="fio">
+            </div>
+            <div class="col-auto">
+                <input class="btn btn-primary" type="submit" ></input>
+            </div>
+        </form>
+
+    {% endblock %}
+
+    <div >*При удалении удаляется соответсвующая строка в таблице history, а добавлять можно только существующий department.id</div>
+
+    <div class="container">
+        <table class="table table-hover table-lg">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>DOB</th>
+                    <th>Department ID</th>
+                    <th>FIO</th>
+                    <th>Action</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                    <tr>
+                        <td>{{ row.id }}</td>
+                        <td>{{ row.dob }}</td>
+                        <td>{{ row.fk_department }}</td>
+                        <td>{{ row.fio }}</td>
+                        <td><button class="btn btn-danger rounded-pill px-3" type="button" onclick="location.href='/members/{{row.id}}/del'">Delete</button></td>
+                        <td><button class="btn btn-warning rounded-pill px-3" data-member-id="{{ row.id }}" data-current-dep="{{ row.fk_department}}" onclick="editDep(this)">Edit</button></td>
+
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+
